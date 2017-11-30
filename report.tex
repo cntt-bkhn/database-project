@@ -4,10 +4,12 @@
 \usepackage[left=3cm, right=3cm, top=3cm, bottom =3cm]{geometry}
 \usepackage{pdfpages}
 \usepackage{fancyhdr}
+\usepackage{fancybox}
 \usepackage{hyperref}
 \usepackage{etoolbox}
 \usepackage{float}
 \usepackage{amsmath}
+\usepackage{indentfirst}
 
 % \setcounter{tocdepth}{4}
 
@@ -53,72 +55,42 @@
 
 \begin{document}
 
-\begin{titlepage}
+%% Title Page %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ==> Write your text here or include other files.
 
-\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+\thispagestyle{empty}
+\thisfancypage{\setlength{\fboxsep}{0pt}\fbox}{}
 
-\center % Center everything on the page
- 
-%----------------------------------------------------------------------------------------
-%   HEADING SECTIONS
-%----------------------------------------------------------------------------------------
+\begin{center}
+\begin{large}
+TRƯỜNG ĐẠI HỌC BÁCH KHOA HÀ NỘI
+\end{large} \\
+\begin{large}
+VIỆN CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG
+\end{large} \\
+\textbf{--------------------  *  ---------------------}\\[2.3cm]
+{\fontsize{32pt}{1}\selectfont BÁO CÁO MÔN HỌC}\\
+{\fontsize{20pt}{1}\selectfont CƠ SỞ DỮ LIỆU}\\[0.5cm]
+{\fontsize{18pt}{1}\selectfont Tên đề tài: Độ phức tạp tính toán \\
+    trong đa dạng hóa kết quả truy vấn}\\[0.5cm]
+\includegraphics[width=4cm]{hust.jpg}\\[1.3cm]
+\end{center}
 
-\textsc{\Huge Đại học Bách Khoa Hà Nội}\\[1cm] % Name of your university/college
-% \textsc{\LARGE INSTITUTE OF TECHNOLOGY  }\\[0.3cm]
-\textsc{\Large Bài tập lớn}\\[0.3cm]
-\textsc{\large Bộ môn: Cơ sở dữ liệu}\\[0.5cm] % Major heading such as course name
- % Minor heading such as course title
+\hspace{2.5cm} Mhóm sinh viên thực hiện : \hspace{4pt}
+\textbf{\parbox[t]{5cm}{    
+    Tạ Quang Tùng \\
+    Phạm Minh Tâm
+}}\\[12pt]
 
-%----------------------------------------------------------------------------------------
-%   TITLE SECTION
-%----------------------------------------------------------------------------------------
-
-\HRule \\[0.4cm]
-{ \huge \bfseries -- Tiêu đề --}\\[0.03cm] % Title of your document
-\HRule \\[1.5cm]
-
- 
-%----------------------------------------------------------------------------------------
-%   AUTHOR SECTION
-%----------------------------------------------------------------------------------------
-
-\begin{minipage}{0.4\textwidth}
-\begin{flushleft} \large
-\emph{Sinh viên:}\\
-Tạ Quang Tùng\\
-Phạm Minh Tâm
-\end{flushleft}
-\end{minipage}
-~
-\begin{minipage}{0.4\textwidth}
-\begin{flushright} \large
-\emph{Giảng viên hướng dẫn:} \\
+\hspace{2.5cm} Giáo viên hướng dẫn \hspace{24pt} :  \hspace{4pt} \textbf{\parbox[t]{5cm}{    
 Nguyễn Kim Anh
-\end{flushright}
-\end{minipage}\\[3cm]
+}}
 
-% If you don't want a supervisor, uncomment the two lines below and remove the section above
-%\Large \emph{Author:}\\
-%John \textsc{Smith}\\[3cm] % Your name
-
-%----------------------------------------------------------------------------------------
-%   DATE SECTION
-%----------------------------------------------------------------------------------------
-
-{\large \today}\\[1cm] % Date, change the \today to a set date if you want to be precise
-
-%----------------------------------------------------------------------------------------
-%   LOGO SECTION
-%----------------------------------------------------------------------------------------
-
-\includegraphics[width=4cm]{hust.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
- 
-%----------------------------------------------------------------------------------------
-
-\vfill % Fill the rest of the page with whitespace
-
-\end{titlepage}
-
+\vspace{1.5cm}
+\begin{center}
+{\fontsize{14pt}{1}\selectfont HÀ NỘI}\\
+{\fontsize{14pt}{1}\selectfont \today}
+\end{center}
 \pagenumbering{gobble}
 \tableofcontents 
 \newpage
