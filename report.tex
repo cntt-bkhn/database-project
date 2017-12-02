@@ -311,6 +311,7 @@ hàm mục tiêu có thể không hữu dụng nếu không thể tìm được 
 để tối ưu hàm mục tiêu đã chọn. Trong phần này, chúng ta sẽ xem xét 
 ba hàm mục tiêu cụ thể, và đồng thời 
 cung cấp thuật toán tối ưu hàm mục tiêu đó. 
+
 \subsubsection{Hàm đa dạng hóa tổng lớn nhất (max-sum diversification)}
 Một hàm mục tiêu thỏa mãn đồng thời hai tiêu chuẩn (tương thích và đa dạng)
 , biểu diễn dưới dạng tổng của hàm tương thích và hàm khoảng cách. Cụ thể 
@@ -325,7 +326,7 @@ tương thích và tính đa dạng. Để ý rằng chúng ta cần nhân thêm
 $\frac{k(k - 1)}{2}$ phần tử trong khi đó tổng bên 
 trái chỉ có $k$ phần tử.
 
-\textit{Nhận xét}. Hàm mục tiêu thỏa mãn phương trình 
+\textit{Nhận xét 1}. Hàm mục tiêu thỏa mãn phương trình 
 \ref{max-sum-diversification} thỏa mãn tất cả các tiên đề ngoại trừ tiên đề
 về tính ổn định. 
 
@@ -373,13 +374,97 @@ toán đã đặt ra.
         \For { $i \gets 1$ \textbf{to} $\floor{\frac{k}{2}}$ }
             \State Tìm $(u, v) = \argmax_{x, y \in U} d(x, y)$
             \State Tập $S = S \cup \{u, v\}$
-            \State Xóa tất cả các cạnh mà gắn với $u$ và $v$ 
+            \State Xóa tất cả các cạnh mà gắn với $u$ hoặc $v$ 
         \EndFor
         \If { k là lẻ }
             \State Thêm một bản ghi bất kì vào $S$ 
         \EndIf
     \end{algorithmic}
 \end{algorithm}
+
+\subsubsection{Hàm đa dạng hóa lớn nhất - nhỏ nhất 
+(max-min diversification)}
+Một hàm mục tiêu thứ hai thỏa mãn đồng thời hai tiêu chuẩn 
+(tương thích và đa dạng)
+, biểu diễn dưới dạng giá trị nhỏ nhất của tổng hàm tương thích và hàm 
+khoảng cách. Cụ thể được định nghĩa như sau: 
+\begin{equation}
+    \label{equation:max-min}
+    f(S) = \min_{u \in S} w(u) + 
+    \lambda \min_{u, v \in S} d(u, v)
+\end{equation}
+Ở đó $|S| = k$, và $\lambda > 0$ là tham số chỉ định sự đánh đổi giữa 
+tính tương thích và tính đa dạng. 
+
+\textit{Nhận xét 2}. Hàm mục tiêu đa dạng hóa được cho bởi phương trình
+\ref{equation:max-min} thỏa mãn tất cả những tiên đề ngoại trừ tiên đề 
+về tính nhất quán và tính ổn định.
+
+Như lần trước, hàm mục tiêu này tương ứng với một hàm mục tiêu phân tán 
+cơ sở, trong trường hợp này là bài toán phân tán lớn nhất - nhỏ nhất 
+(max-min dispersion problem). Hàm mục tiêu cho bài toán phân tán 
+lớn nhất - nhỏ nhất là: 
+$g(P) = \min_{v_i, v_j \in P} d(v_i, v_j)$, và có thể suy ra là tương 
+đương với phương trình \ref{equation:max-min} bằng cách đặt khoảng cách: 
+\begin{equation}
+    d'(u, v) = \frac{1}{2}(w(u) + w(v)) + \lambda d(u, v)
+\end{equation}
+Cũng tương tự, $d'(u, v)$ tạo thành một không gian metric. Hơn nữa, ta 
+lại có: 
+$$
+\min_{u, v \in S} d'(u, v) = \min_{u \in S} w(u)  
++ \lambda \min_{u, v \in S} d(u, v) = f(S)
+$$
+Từ đó, ta có thể giải bài toán tìm cực đại hàm mục tiêu đa dạng hóa lớn 
+nhất nhỏ nhất bằng việc giải bài toán phân tán lớn nhất - nhỏ nhất. 
+Ta có thể sử dụng thuật toán \ref{alg:2} để giải bài toán đó. 
+Đồng thời, bài toán đã đặt ra cũng là bài toán NP khó. 
+
+\begin{algorithm}
+    \caption{Thuật toán cho bài toán phân tán lớn nhất - nhỏ nhất}
+    \label{alg:2}
+    \begin{algorithmic}
+        \INPUT Tập $U$, giá trị nguyên k 
+        \OUTPUT Tập $S$ ($|S|=k$) sao cho giá trị của $f(S)$ là lớn nhất
+        \State Khởi tạo $S = \varnothing$
+        \State Tìm $(u, v) = \argmax_{x, y \in U} d(x, y)$ 
+        và tập $S = \{ u, v\}$
+
+        \For {$x \in U$}
+            \State Định nghĩa $d(x, S) = \min_{u \in S} d(x, u)$
+        \EndFor
+
+        \While {$|S| < k$}
+            \State Tìm $x \in U \setminus S$ sao cho
+            $x = \argmax_{x \in U \setminus S} d(x, S)$
+            \State Tập $S = S \cup \{ x \}$
+        \EndWhile
+    \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Hàm đơn mục tiêu (mono-objective formulation)}
+Hàm mục tiêu cuối cùng không liên quan đến bài toán phân tán cơ bản nào 
+cả và nó hợp giá trị tương thích và giá trị của hàm khoảng cách 
+thành một giá trị đơn nhất cho mỗi bản ghi.
+Cụ thể được định nghĩa như sau: 
+\begin{equation}
+    \label{equation:mono}
+    f(S) = \sum_{u \in S} w'(u)
+\end{equation}
+Trong đó
+$$
+w'(u) = w(u) + \frac{\lambda}{|U| - 1}
+\sum_{u \in U} d(u, v)
+$$
+Giá trị tham số $\lambda$ thể hiện sử đánh đổi giữa tính tương thích 
+và tính đa dạng. 
+Một cách trực quan, giá trị $w'(u)$ tính toán sự quan trọng một cách toàn bộ mỗi một bản ghi $u$. Đặc trưng tiên đề của hàm mục tiêu này như sau:
+
+\textit{Nhận xét 3}. Hàm mục tiêu được cho trong phương trình 
+\ref{equation:mono} thỏa mãn tất cả các tiên đề trừ tiên đề về tính 
+nhất quán.
+
+Đồng thời nhận thấy rằng ta có thể tối ưu hàm mục tiêu một cách chính xác bằng việc tính toán giá trị $w'(u)$ cho mỗi bản ghi $u \in U$ và rồi lựa chọn những bản ghi trong top k giá trị để cho vào tập kết quả. 
 
 \bibliography{report}{}
 \bibliographystyle{plain}
