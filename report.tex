@@ -129,235 +129,8 @@ Nguyễn Kim Anh
 % To show section* in the table of contents
 % Doesn't need with section
 \addcontentsline{toc}{section}{Lời nói đầu}
+\newpage
 
-\section{Độ phức tạp trong vấn đề đa dạng hóa kết quả tìm kiếm}
-Đa dạng hóa kết quả try vấn là một vấn đề tối ưu hóa đa điều kiện cho việc xếp hạng kết quả truy  vấn. Cho bộ dữ liệu D, một truy vấn Q và một số nguyên k, yêu cầu đặt ra là tìm một tập có k phần tử từ kết quả truy vấn Q(D) sao cho các bộ trả về có sự liên quan nhất có thể tới câu truy vấn và đồng thời trả về kết quả đa dạng nhất cho mỗi bộ. Tập con của Q(D) được sắp xếp bởi một hàm mục tiêu được định nghĩa bởi tính liên quan của các kết quả với câu truy vấn và tính đa dạng của tập kết quả. Đa dạng hóa kết quả truy vấn có rất nhiều ứng dụng trong cơ sở dữ liệu, trích xuất thông tin và các hoạt động tìm kiếm.
-Có 3 vấn đề liên quan đến đa dạng hóa kết quả truy vấn được định nghĩa đó là:
-  \begin{itemize}
-  \item Xác định xem liệu có tồn tại tập k phần tử thỏa mãn một ràng buộc về khía cạnh độ liên quan và độ đa dạng đối với truy vấn (QRD).
-  \item Xếp hạng một tập k phần tử cho trước (DRP).
-  \item Đếm xem có bao nhiêu tập k phần tử thỏa mãn điều kiện cho trước (RDC).
-  \end{itemize}
-Chúng ta nghiên cứu vấn đề trên với nhiều ngôn ngữ truy vấn cho 3 hàm mục tiêu \textit{max-sum diversification, max-min diversification, mono-objective formulation}.
-Với mỗi vấn đề ta sẽ dùng các hàm mục tiêu khác nhau để truy vấn. Với mỗi trường hợp, các thông số sẽ được thay đổi để nghiên cứu về độ phức tạp của bài toán và tìm yếu tố ảnh hưởng tới độ phức tạp của bài toán. 
-\subsection{Các vấn đề liên quan đến đa dạng hóa kết quả truy vấn}
-	\subsubsection{QRD  (\textit{The query result diversification problem}) }
-	Cho một truy vấn Q, tập cơ sở dữ liệu D, một số nguyên k, một cận B, hàm mục tiêu F.Khi đó ta nói một bộ $ U \subseteq Q(D) $ là một tập ứng viên nếu nó có k phần tử $|U| = k$. Một tập ứng viên U là thỏa mãn cho bài toán (Q,D,k,F,B) nếu $F(U) \ge B$.\\
-	Vấn đề $QRD(\mathcal{L}_Q,F(.))$ được trình bày như sau: \\
-	INPUT: 	Một cơ sở dữ liệu D, một truy vấn $Q\in \mathcal{L}_Q$, một hàm mục tiêu F(.) một số thực B và một số nguyên $k\ge1$.\\
-	OUTPUT: Trả lời câu hởi liệu có tồn tại một tập thỏa mãn bàn toán (Q,D,k,F,B) nêu trên không?
-	\subsubsection{DRP  (\textit{The diversity ranking problem}) }
-	Với một tập U được cho trước bởi người dùng hoặc hệ thống, chúng ta sẽ xác định xem liệu tập U đó có đạt được mục tiêu đa dạng hóa kết quả từ đó đánh giá kết quả có thỏa mãn với người dùng không.Đây là một vấn đề quyết định khác có thể gọi là xếp hạng tập kết quả cho trước. Ta xem xét một tập U và một số r. Ta nói hạng của U là r, ký hiệu $ rank(U) = r$ nếu tồn tại một mảng S có r-1 phần tử các tập ứng viên cho vấn đề (Q,D,k) sao cho:\\
-	 \begin{itemize}
-  	 \item Tất cả các tập thuộc mảng $s_i \in S $ đều thỏa mãn $F(s_i) > F(U)$
- 	 \item Bất kỳ một tập $s_k \notin S $ đều có $F(U) \ge F(s_k)$
-  	 \end{itemize}
-	Vấn đề $DRP(\mathcal{L}_Q,F(.))$ được trình bày như sau: \\
-	INPUT: 	Một cơ sở dữ liệu D, một truy vấn $Q\in \mathcal{L}_Q$, một hàm mục tiêu F(.) một bộ U nằm trong thuộc Q(D) với |U| = k.\\
-	OUTPUT: Trả lời câu hởi liệu $rank(U) \le r$?
-	\subsubsection{RDC  (\textit{The result diversity counting problem}) }
-	Cho một mục tiêu B chúng ta muốn biết có bao nhiêu tập U thỏa mãn mục tiêu trên.\\
-	Vấn đề $RDC(\mathcal{L}_Q,F(.))$ được trình bày như sau: \\
-	INPUT: 	Một cơ sở dữ liệu D, một truy vấn $Q\in \mathcal{L}_Q$, một hàm mục tiêu F(.) và một số nguyên $k$ như ở trong vấn đề $QRD(\mathcal{L}_Q,F(.))$ \\
-	OUTPUT: Trả lời câu hởi có bao nhiêu bộ thỏa mãn bàn toán (Q,D,k,F,B) ?
-\subsection{Độ phức tạp của bài toán}
-Chương này sẽ tìm hiểu về độ phức tạo của các vấn đề  $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$, $RDC(\mathcal{L}_Q,F(.))$ sử dụng các ngôn ngữ CQ,UCQ,$\exists FO^+$ và FO với các hàm mục tiêu F(.) là $F_{MS}(.)$  (max-sum diversification), $F_{MM}(.)$ (max-min diversification) và $F_{mono}(.)$ (mono-objective formulation).\\
-Với mỗi trường hợp ta nghiên cứu:
-	\begin{enumerate}
-		\item Độ phức tạp hỗn hợp khi cả truy vấn và dữ liệu D là thay đổi.
-		\item Độ phức tạp dữ liệu khi truy vấn Q được định nghĩa và cố định, dữ liệu D thay đổi, độ phức tạp được đánh giá trên một truy vấn cố định đối với nhiều loại dữ liệu đầu vào.
-	\end{enumerate} 
-\subsubsection{Độ phức tạp hỗn hợp}
-\textbf{QRD}  (\textit{The query result diversification problem}) 
-	\begin{enumerate}
-		\item Khi hàm mục tiêu là max-sum hoặc max-min ngôn ngữ truy vấn có ảnh hưởng tới độ phức tạp của thuật toán, cụ thể: là NP-complete khi $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$, nhưng trở thành PSPACE-complete khi $\mathcal{L}_Q$ là FO. Trong khi sự hiện diện của UCQ và $\exists FO^+$ không làm cho thuật toán phức tạp hơn so với khi dùng ngôn ngữ CQ, thì sự hiện diện của FO làm phức tạp hóa thuật toán.
-		\item Khi hàm mục tiêu là mono-objective thuật toán trở nên phức tạp hơn khi $\mathcal{L}_Q$ là CQ,UCQ, $\exists FO^+$ với độ phức tạp là PSPACE-complete giống như khi dùng ngôn ngữ FO.
-	\end{enumerate}
-	
-	\textit{Định lý 1: Cho vấn đề $QRD(\mathcal{L}_Q,F(.))$, khi hàm mục tiêu là max-sum hoặc max-min, độ phức tạp hỗn hợp là:
-		\begin{itemize}
-  		\item NP-complete khi $\mathcal{L}_Q$ là  CQ, UCQ, $\exists FO^+$
-  		\item PSPACE-complete khi $\mathcal{L}_Q$ là FO
-  		\end{itemize}
-  	Còn khi hàm mục tiêu là mono-objective độ phức tạp hỗn hợp là:
-  	\begin{itemize}
-  		\item PSPACE-complete khi $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hay FO.
-  		\end{itemize}
-	 }
-\textbf{DRP}  (\textit{The diversity ranking problem})
-	\begin{enumerate}
-		\item Giống như $QRD(\mathcal{L}_Q,F(.))$ khi F là max-min objective hoặc max-sum objective sự khác nhau của các ngôn ngữ ảnh hưởng đến độ phức tạp của thuật toán. Khi F là mono-objective thay đổi ngôn ngữ không ảnh hưởng tới độ phức tạp
-		\item Khi hàm mục tiêu là max-sum hoặc max-min $DRP(\mathcal{L}_Q,F(.))$ là coNP-complete cho ngôn ngữ CQ, UCQ.
-	\end{enumerate}
-	\textit{Định lý 2: Cho vấn đề $DRP(\mathcal{L}_Q,F(.))$, khi hàm mục tiêu là max-sum hoặc max-min, độ phức tạp hỗn hợp là:
-		\begin{itemize}
-  		\item coNP-complete khi $\mathcal{L}_Q$ là  CQ, UCQ, $\exists FO^+$
-  		\item PSPACE-complete khi $\mathcal{L}_Q$ là FO
-  		\end{itemize}
-  	Còn khi hàm mục tiêu là mono-objective độ phức tạp hỗn hợp là:
-  	\begin{itemize}
-  		\item PSPACE-complete khi $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hay FO
-  		\end{itemize}
-	 }
-	
-\textbf{RDC}  (\textit{The result diversity counting problem})
-Khi F là $F_{MS} (.)$ hoặc $F_{MM} (.)$, vấn đề trở nên khó đối với ngôn ngữ FO hơn là với CQ, UCQ, $\exists FO^+$. Ngược lại $F_mono (.)$ tác động dến sự phức tạp của thuật toán nhiều hơn so với ảnh hưởng của ngôn ngữ  $\mathcal{L}_Q$. Điều này tương tự như các vấn đề $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$ đã nêu ở trên. Các kết quả được xác minh bởi sự giảm bớt.
-	\textit{Định lý 3: Cho vấn đề $RDC(\mathcal{L}_Q,F(.))$, khi hàm mục tiêu là max-		sum hoặc max-min, độ phức tạp hỗn hợp là:
-		\begin{itemize}
-  		\item \#.NP-complete khi $\mathcal{L}_Q$ là  CQ, UCQ, $\exists FO^+$
-  		\item \#.PSPACE-complete khi $\mathcal{L}_Q$ là FO
-  		\end{itemize}
-  	Còn khi hàm mục tiêu là mono-objective độ phức tạp hỗn hợp là:
-  	\begin{itemize}
-  		\item \#.PSPACE-complete khi $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hay FO
-  		\end{itemize}
-	 }
-\subsubsection{Độ phức tạp dữ liệu}
-\textbf{QRD}  (\textit{The query result diversification problem}) 
-Khi F là $F_{MS} (.)$  hoăc  $F_{MM} (.)$, cố định truy vấn Q không làm thay đổi độ phức tạp của vấn đề  $QRD(\mathcal{L}_Q,F(.))$ cho ngôn ngữ CQ, UCQ, $\exists FO^+$, vấn đề vẫn có độ phức tạp là NP-comlete. Ngược lại khi $\mathcal{L}_Q$ là FO và F là $F_{MS} (.)$ hoặc $F_{MM} (.)$ vấn đề đơn giản hơn với độ phức tạp là NP-comlete. Khi F là $F_{mono} (.)$ vấn đề cũng trở nên dễ giải quyết hơn.
-	\textit{Định lý 4: Cho vấn đề $QRD(\mathcal{L}_Q,F(.))$, độ phức tạp dữ liệu là:
-		\begin{itemize}
-  		\item NP-complete khi F là  $F_{MS} (.)$ hoặc $F_{MM} (.)$
-  		\item Trong PTIME khi F là $F_{mono} (.)$
-  		\end{itemize}
-  		với $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hoặc FO\\
-	 }
-	 \\
-\textbf{DRP}  (\textit{The diversity ranking problem})
-Giống như vấn đề $QRD(\mathcal{L}_Q,F(.))$, cố định truy vấn Q làm cho  $DRP(\mathcal{L}_Q,F(.))$ đơn giản hơn khi:
-	\begin{enumerate}
-		\item Hàm mục tiêu F là $F_{mono} (.)$ 
-		\item Khi ngôn ngữ truy vấn $\mathcal{L}_Q$ là FO, và hàm mục tiêu F là $F_{MS} (.)$ hoặc $F_{MM} (.)$
-	\end{enumerate}
-Độ phức tạp dữ liệu vẫn tương tự như độ phức tạp hỗn hợp của khi LQ là CQ, UCQ hoặc $\exists FO^+$, và khi F là $F_MS (.)$ hoặc $F_{MM} (.)$.\\
-	\textit{Định lý 5: Cho vấn đề $DRP(\mathcal{L}_Q,F(.))$, độ phức tạp dữ liệu là:
-		\begin{itemize}
-  		\item coNP-complete khi F là  $F_{MS} (.)$ hoặc $F_{MM} (.)$
-  		\item Trong PTIME khi F là $F_{mono} (.)$
-  		\end{itemize}
-  		với $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hoặc FO
-	 }
-	 \\
-\textbf{RDC}  (\textit{The result diversity counting problem})
-	\textit{Định lý 6: Cho vấn đề $RDC(\mathcal{L}_Q,F(.))$, độ phức tạp dữ liệu là:
-		\begin{itemize}
-  		\item \#P-complete dưới sụ giảm thiểu khi F là  $F_{MS} (.)$ hoặc $F_{MM} (.)$
-  		\item \#P-complete dưới sự tối giản đa thức Turing  khi F là $F_{mono} (.)$
-  		\end{itemize}
-  		với $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hoặc FO
-	 }
-	 \\
-\textbf{Tổng kết} Từ những kết quả trên chúng ta thấy;
-	\begin{enumerate}
-		\item Cả ngôn ngữ truy vấn và hàm mục tiêu đều có tác động đến độ phức 			tạp hỗn hợp của những vấn đề trên. Cụ thể hơn: 
-			\begin{itemize}
-  			\item \#P-complete khi F là $F_{MS} (.)$ hoặc $F_{MM} (.)$, những vấn đề này đối với ngôn ngữ truy vấn FO có độ phức tạp phức tạp lớn hơn so với các ngôn ngữ CQ, UCQ và $\exists FO^+$.
-  			\item \#P-complete  Đối với $F_{mono} (.)$ hàm mục tiêu là yếu tố chính chi phối sự phức tạp.
-  			\end{itemize} 
-		\item Độ phức tạp của dữ liệu không liên quan tới ngôn ngữ truy vấn.
-	\end{enumerate}
-\subsection{Một số trường hợp đặc biệt}
-\textbf{Truy vấn nhận dạng}
-
-	\textit{Hệ quả 1: Với truy vấn định danh, khi F là $F_{MS} (.)$ hoặc $F_{MM} (.)$, cả độ phức tạp hỗn hợp và độ phức tạp dữ liệu là:
-		\begin{itemize}
-  		\item NP-complete cho vấn đề $QRD(\mathcal{L}_Q,F(.))$
-  		\item coNP-complete cho vấn đề $DRP(\mathcal{L}_Q,F(.))$ và 
-  		\item \#P-complete cho vấn đề $RDC(\mathcal{L}_Q,F(.))$ dưới sụ giảm thiểu
-  		\end{itemize}
-  	Khi F là $F_mono (.)$ cả độ phức tạp hỗn hợp và độ phức tạp dữ liệu là:
-  		\begin{itemize}
-  		\item trong thời gian PTIME cho vấn đề $QRD(\mathcal{L}_Q,F(.))$
-  		\item trong thời gian PTIME cho vấn đề $DRP(\mathcal{L}_Q,F(.))$
-  		\item \#P-complete cho vấn đề $RDC(\mathcal{L}_Q,F(.))$ dưới sự tối giản đa thức Turing
-  		\end{itemize}
-	 }
-\textbf{Khi $\lambda = 0 $} \\
-Tiếp theo, chúng ta nghiên cứu tác động của hàm liên quan đến tính đa dạng đối với sự phức tạp của thuật toán. Khi $\lambda =0$ chỉ có hàm tính sự đa dạng $\delta _{rel} (.,.)$ được sử dụng trong hàm mục tiêu F(.). 
-	\textit{Hệ quả 2: Với $\lambda = 0 $, khi F là $F_{MS} (.)$ hoặc $F_{MM} (.)$, độ phức tạp hỗn hợp của những vấn đề $QRD(\mathcal{L}_Q,F(.))$, $DRC(\mathcal{L}_Q,F(.))$ và $RDC(\mathcal{L}_Q,F(.))$ giống với độ phức tạp ta đã đề cập đến trong định lý 1,2 và 3 nhưng độ phức tạp dữ liệu là:
-		\begin{itemize}
-  		\item trong thời gian PTIME cho vấn đề $QRD(\mathcal{L}_Q,F(.))$
-  		\item trong thời gian PTIME cho vấn đề $DRP(\mathcal{L}_Q,F(.))$ và 
-  		\item \#P-complete dưới sự tối giản đa thức Turing cho vấn đề $RDC(\mathcal{L}_Q,F(.))$ khi F(.) là $F_{MS} (.)$, trong FP khi  F(.) là $F_{MM} (.)$
-  		\end{itemize}
-  	Khi F là $F_{mono} (.)$ độ phức tạp hỗn hợp là:
-  		\begin{itemize}
-  		\item NP-complete cho vấn đề $QRD(\mathcal{L}_Q,F(.))$ khi $\mathcal{L}_Q$ là  CQ, UCQ hoặc $\exists FO^+$ và PSPACE-complete khi $\mathcal{L}_Q$ là FO.
-  		\item coNP-complete cho vấn đề $DRP(\mathcal{L}_Q,F(.))$ khi $\mathcal{L}_Q$ là  CQ, UCQ hoặc $\exists FO^+$ và PSPACE-complete khi $\mathcal{L}_Q$ là FO.
-  		\item \#.NP-complete cho vấn đề $RDC(\mathcal{L}_Q,F(.))$ khi $\mathcal{L}_Q$ là  CQ, UCQ hoặc $\exists FO^+$ và \#.PSPACE-complete khi $\mathcal{L}_Q$ là FO.
-  		\end{itemize}
-  	Độ phức tạp dữ liệu giống như trong các định lý 4,5,6.
-	 }
-	\\ 
-\textbf{Khi $\lambda = 1 $} \\
-Không giống như kết quả ở hệ quả 2, việc bỏ hàm tính sự liên quan $\delta _{rel} (.,.)$ khỏi F (·) không làm cho thuật toán dễ dàng hơn. Thực tế, cả độ phức tạp kết hợp và độ phức tạp dữ liệu của $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$ và $RDC(\mathcal{L}_Q,F(.))$ vẫn không đổi. Điều này chứng minh hàm tính sự đa dạng $\delta _{rel} (.,.)$ chi phối sự phức tạp của những vấn đề này.\\
-	\textit{Định lý 7: Khi $\lambda = 1 $ độ phức tạp hỗn hợp giống như trong định lý 1,2 và 3 độ phức tạp dữ liệu giống như trong định lý 4,5,6 và không đổi với các vấn đề $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$, $RDC(\mathcal{L}_Q,F(.))$ khi hàm mục tiêu là $F_{MS} (.)$,$F_{MM} (.)$,$F_{mono} (.)$ với các ngôn ngữ CQ, UCQ, $\exists FO^+$ và FO\\
-	 }
-\textbf{Khi k là hằng số} \\
-	\textit{Hệ quả 3: Với k cố định
-		\begin{itemize}
-  		\item Độ phức tạp hỗn hợp như trong định lý 1,2,3 với các vấn đề $QRD(\mathcal{L}_Q,F(.))$,$DRP(\mathcal{L}_Q,F(.))$ và $RDC(\mathcal{L}_Q,F(.))$
-  		\item Độ phức tạp dữ liệu là :\\
-  			{\begin{itemize}
-  			\item PTIME với vấn đề $QRD(\mathcal{L}_Q,F(.))$
-  			\item PTIME với vấn đề $DRP(\mathcal{L}_Q,F(.))$
-  			\item FP với vấn đề $RDC(\mathcal{L}_Q,F(.))$
-  			\end{itemize}}
-  		\end{itemize}
-  		không quan trọng hàm mục tiêu là $F_{MS} (.)$,$F_{MM} (.)$,$F_{mono} (.)$ và ngôn ngữ truy vấn là CQ, UCQ, $\exists FO^+$ và FO.\\
-	 }
-\textbf{Tổng kết} Từ những kết quả trên chúng ta thấy;
-	\begin{itemize}
-  		\item Ảnh hưởng của ngôn ngữ $\mathcal{L}_Q$: Khi F là $F_{MS} (.)$ hoặc $F_{MM} (.)$, các vấn đề $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$ và $RDC(\mathcal{L}_Q,F(.))$ độ phức tạp cho ngôn ngữ FO cao hơn so với các ngôn ngữ CQ, UCQ và $\exists FO^+$.Khi F là  $F_{mono} (.)$ , các giới hạn về độ phức tạp kết hợp của các vấn đề này vẫn không thay đổi khi LQ thay đổi (Theorems 1, 2 và 3). Ngược lại, đối với lớp các truy vấn nhận dạng, tất cả những vấn đề này trở nên đơn giản hơn. Ngôn ngữ truy vấn $\mathcal{L}_Q$ không ảnh hưởng đến độ phức tạp của các vấn đề này.
-  		\item Ảnh hưởng của hàm tính độ đa dạng và hàm tính độ liên quan: Độ phức tạp của bài toán xuất phát từ hàm tính độ đa dạng trong hàm mục tiêu.
-  		\item Ảnh hưởng của k: Khi k là hằng số cố định, độ phức tạp dữ liệu của $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$ và $RDC(\mathcal{L}_Q,F(.))$ trở nên đơn giản hơn, với hàm mục tiêu F là $F_{MS} (.)$ hoặc $F_{MM} (.)$ 
-  	\end{itemize}
-
-\textbf{Bảng 1}  Độ phức tạp hỗn hợp và độ phức tạp sữ liệu	\\
-\begin{tabular}{|m{2cm}|m{2cm}|m{2.5cm}|m{2.5cm}|m{2.8cm}|}
-\hline 
-Hàm mục tiêu & Ngôn ngữ & \multicolumn{3}{|c|}{Vấn đề}\\ 
-\hline
-&&$QRD(\mathcal{L}_Q,F(.))$& $DRP(\mathcal{L}_Q,F(.))$ & $RDC(\mathcal{L}_Q,F(.))$ \\
-\hline
-&& \multicolumn{3}{|c|}{Độ phức tạp hỗn hợp} \\
-\hline 
-\multirow{2}{10em}{$F_{MS} (.)$ và \\$F_{MM} (.)$}& CQ, UCQ và $\exists FO^+$ & NP-complete & coNP-complete &\#.NP-complete \\
-\cline{2-5}
-&FO& PSPACE-complete & PSPACE-complete & \#.PSPACE-complete \\
-\hline
-$F_{mono} (.)$ & CQ, UCQ $\exists FO^+$ , FO & PSPACE-complete & PSPACE-complete & \#.PSPACE-complete \\
-\hline
-
-&& \multicolumn{3}{|c|}{Độ phức tạp dữ liệu} \\
-\hline 
-$F_{MS} (.)$ và $F_{MM} (.)$ & CQ, UCQ và $\exists FO^+$,FO & NP-complete & coNP-complete &\#P-complete \\
-\hline
-$F_{mono} (.)$ & CQ, UCQ $\exists FO^+$ , FO & PTIME & PTIME & \#P-complete \\
-\hline
-
-
-\end{tabular}
-
-
-\textbf{Bảng 2} Các trường hợp đặc biệt 	\\
-\begin{tabular}{|m{2cm}|m{2cm}|m{2.5cm}|m{2.5cm}|m{2.8cm}|}
-\hline 
-Điều kiện & Độ phức tạp & \multicolumn{3}{|c|}{Vấn đề}\\ 
-\hline
-&&$QRD(\mathcal{L}_Q,F(.))$& $DRP(\mathcal{L}_Q,F(.))$ & $RDC(\mathcal{L}_Q,F(.))$ \\
-\hline
-Truy vấn định danh F là $F_{mono} (.)$ &Độ phức tạp hỗn hợp & PTIME & PTIME &\#P-complete(Turing) \\
-\hline
-$\lambda = 0$ F là $F_{MS} (.)$  &Độ phức tạp dữ liệu & PTIME & PTIME &\#P-complete(Turing) \\
-\hline
-$\lambda = 0$ F là $F_{MM} (.)$  &Độ phức tạp dữ liệu &  PTIME & PTIME & FP \\
-\hline
-$\lambda = 0$ F là $F_{mono} (.)$, $\mathcal{L}_Q$ là CQ, UCQ $\exists FO^+$ &Độ phức tạp hỗn hợp &NP-complete & coNP-complete &\#NP-complete  \\
-\hline
-k là hằng số &Độ phức tạp dữ liệu & PTIME & PTIME &FP \\
-\hline
-\end{tabular}
 
 \section{Cách tiếp cận tiên đề trong đa dạng hóa kết quả truy vấn}
 Trong chương này, chúng ta sẽ đề cập đến cách tiếp cận 
@@ -698,6 +471,237 @@ nhất quán.
 
 Đồng thời nhận thấy rằng ta có thể tối ưu hàm mục tiêu một cách chính xác bằng việc tính toán giá trị $w'(u)$ cho mỗi bản ghi $u \in U$ và rồi lựa chọn những bản ghi trong top k giá trị để cho vào tập kết quả. 
 
+\newpage
+
+
+\section{Độ phức tạp trong vấn đề đa dạng hóa kết quả tìm kiếm}
+Đa dạng hóa kết quả try vấn là một vấn đề tối ưu hóa đa điều kiện cho việc xếp hạng kết quả truy  vấn. Cho bộ dữ liệu D, một truy vấn Q và một số nguyên k, yêu cầu đặt ra là tìm một tập có k phần tử từ kết quả truy vấn Q(D) sao cho các bộ trả về có sự liên quan nhất có thể tới câu truy vấn và đồng thời trả về kết quả đa dạng nhất cho mỗi bộ. Tập con của Q(D) được sắp xếp bởi một hàm mục tiêu được định nghĩa bởi tính liên quan của các kết quả với câu truy vấn và tính đa dạng của tập kết quả. Đa dạng hóa kết quả truy vấn có rất nhiều ứng dụng trong cơ sở dữ liệu, trích xuất thông tin và các hoạt động tìm kiếm.
+Có 3 vấn đề liên quan đến đa dạng hóa kết quả truy vấn được định nghĩa đó là:
+  \begin{itemize}
+  \item Xác định xem liệu có tồn tại tập k phần tử thỏa mãn một ràng buộc về khía cạnh độ liên quan và độ đa dạng đối với truy vấn (QRD).
+  \item Xếp hạng một tập k phần tử cho trước (DRP).
+  \item Đếm xem có bao nhiêu tập k phần tử thỏa mãn điều kiện cho trước (RDC).
+  \end{itemize}
+Chúng ta nghiên cứu vấn đề trên với nhiều ngôn ngữ truy vấn cho 3 hàm mục tiêu \textit{max-sum diversification, max-min diversification, mono-objective formulation}.
+Với mỗi vấn đề ta sẽ dùng các hàm mục tiêu khác nhau để truy vấn. Với mỗi trường hợp, các thông số sẽ được thay đổi để nghiên cứu về độ phức tạp của bài toán và tìm yếu tố ảnh hưởng tới độ phức tạp của bài toán. 
+\subsection{Các vấn đề liên quan đến đa dạng hóa kết quả truy vấn}
+	\subsubsection{QRD  (\textit{The query result diversification problem}) }
+	Cho một truy vấn Q, tập cơ sở dữ liệu D, một số nguyên k, một cận B, hàm mục tiêu F.Khi đó ta nói một bộ $ U \subseteq Q(D) $ là một tập ứng viên nếu nó có k phần tử $|U| = k$. Một tập ứng viên U là thỏa mãn cho bài toán (Q,D,k,F,B) nếu $F(U) \ge B$.\\
+	Vấn đề $QRD(\mathcal{L}_Q,F(.))$ được trình bày như sau: \\
+	INPUT: 	Một cơ sở dữ liệu D, một truy vấn $Q\in \mathcal{L}_Q$, một hàm mục tiêu F(.) một số thực B và một số nguyên $k\ge1$.\\
+	OUTPUT: Trả lời câu hởi liệu có tồn tại một tập thỏa mãn bàn toán (Q,D,k,F,B) nêu trên không?
+	\subsubsection{DRP  (\textit{The diversity ranking problem}) }
+	Với một tập U được cho trước bởi người dùng hoặc hệ thống, chúng ta sẽ xác định xem liệu tập U đó có đạt được mục tiêu đa dạng hóa kết quả từ đó đánh giá kết quả có thỏa mãn với người dùng không.Đây là một vấn đề quyết định khác có thể gọi là xếp hạng tập kết quả cho trước. Ta xem xét một tập U và một số r. Ta nói hạng của U là r, ký hiệu $ rank(U) = r$ nếu tồn tại một mảng S có r-1 phần tử các tập ứng viên cho vấn đề (Q,D,k) sao cho:\\
+	 \begin{itemize}
+  	 \item Tất cả các tập thuộc mảng $s_i \in S $ đều thỏa mãn $F(s_i) > F(U)$
+ 	 \item Bất kỳ một tập $s_k \notin S $ đều có $F(U) \ge F(s_k)$
+  	 \end{itemize}
+	Vấn đề $DRP(\mathcal{L}_Q,F(.))$ được trình bày như sau: \\
+	INPUT: 	Một cơ sở dữ liệu D, một truy vấn $Q\in \mathcal{L}_Q$, một hàm mục tiêu F(.) một bộ U nằm trong thuộc Q(D) với |U| = k.\\
+	OUTPUT: Trả lời câu hởi liệu $rank(U) \le r$?
+	\subsubsection{RDC  (\textit{The result diversity counting problem}) }
+	Cho một mục tiêu B chúng ta muốn biết có bao nhiêu tập U thỏa mãn mục tiêu trên.\\
+	Vấn đề $RDC(\mathcal{L}_Q,F(.))$ được trình bày như sau: \\
+	INPUT: 	Một cơ sở dữ liệu D, một truy vấn $Q\in \mathcal{L}_Q$, một hàm mục tiêu F(.) và một số nguyên $k$ như ở trong vấn đề $QRD(\mathcal{L}_Q,F(.))$ \\
+	OUTPUT: Trả lời câu hởi có bao nhiêu bộ thỏa mãn bàn toán (Q,D,k,F,B) ?
+\subsection{Độ phức tạp của bài toán}
+Chương này sẽ tìm hiểu về độ phức tạo của các vấn đề  $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$, $RDC(\mathcal{L}_Q,F(.))$ sử dụng các ngôn ngữ CQ,UCQ,$\exists FO^+$ và FO với các hàm mục tiêu F(.) là $F_{MS}(.)$  (max-sum diversification), $F_{MM}(.)$ (max-min diversification) và $F_{mono}(.)$ (mono-objective formulation).\\
+Với mỗi trường hợp ta nghiên cứu:
+	\begin{enumerate}
+		\item Độ phức tạp hỗn hợp khi cả truy vấn và dữ liệu D là thay đổi.
+		\item Độ phức tạp dữ liệu khi truy vấn Q được định nghĩa và cố định, dữ liệu D thay đổi, độ phức tạp được đánh giá trên một truy vấn cố định đối với nhiều loại dữ liệu đầu vào.
+	\end{enumerate} 
+\subsubsection{Độ phức tạp hỗn hợp}
+\textbf{QRD}  (\textit{The query result diversification problem}) 
+	\begin{enumerate}
+		\item Khi hàm mục tiêu là max-sum hoặc max-min ngôn ngữ truy vấn có ảnh hưởng tới độ phức tạp của thuật toán, cụ thể: là NP-complete khi $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$, nhưng trở thành PSPACE-complete khi $\mathcal{L}_Q$ là FO. Trong khi sự hiện diện của UCQ và $\exists FO^+$ không làm cho thuật toán phức tạp hơn so với khi dùng ngôn ngữ CQ, thì sự hiện diện của FO làm phức tạp hóa thuật toán.
+		\item Khi hàm mục tiêu là mono-objective thuật toán trở nên phức tạp hơn khi $\mathcal{L}_Q$ là CQ,UCQ, $\exists FO^+$ với độ phức tạp là PSPACE-complete giống như khi dùng ngôn ngữ FO.
+	\end{enumerate}
+	
+	\textit{Định lý 1: Cho vấn đề $QRD(\mathcal{L}_Q,F(.))$, khi hàm mục tiêu là max-sum hoặc max-min, độ phức tạp hỗn hợp là:
+		\begin{itemize}
+  		\item NP-complete khi $\mathcal{L}_Q$ là  CQ, UCQ, $\exists FO^+$
+  		\item PSPACE-complete khi $\mathcal{L}_Q$ là FO
+  		\end{itemize}
+  	Còn khi hàm mục tiêu là mono-objective độ phức tạp hỗn hợp là:
+  	\begin{itemize}
+  		\item PSPACE-complete khi $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hay FO.
+  		\end{itemize}
+	 }
+\textbf{DRP}  (\textit{The diversity ranking problem})
+	\begin{enumerate}
+		\item Giống như $QRD(\mathcal{L}_Q,F(.))$ khi F là max-min objective hoặc max-sum objective sự khác nhau của các ngôn ngữ ảnh hưởng đến độ phức tạp của thuật toán. Khi F là mono-objective thay đổi ngôn ngữ không ảnh hưởng tới độ phức tạp
+		\item Khi hàm mục tiêu là max-sum hoặc max-min $DRP(\mathcal{L}_Q,F(.))$ là coNP-complete cho ngôn ngữ CQ, UCQ.
+	\end{enumerate}
+	\textit{Định lý 2: Cho vấn đề $DRP(\mathcal{L}_Q,F(.))$, khi hàm mục tiêu là max-sum hoặc max-min, độ phức tạp hỗn hợp là:
+		\begin{itemize}
+  		\item coNP-complete khi $\mathcal{L}_Q$ là  CQ, UCQ, $\exists FO^+$
+  		\item PSPACE-complete khi $\mathcal{L}_Q$ là FO
+  		\end{itemize}
+  	Còn khi hàm mục tiêu là mono-objective độ phức tạp hỗn hợp là:
+  	\begin{itemize}
+  		\item PSPACE-complete khi $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hay FO
+  		\end{itemize}
+	 }
+	
+\textbf{RDC}  (\textit{The result diversity counting problem})
+Khi F là $F_{MS} (.)$ hoặc $F_{MM} (.)$, vấn đề trở nên khó đối với ngôn ngữ FO hơn là với CQ, UCQ, $\exists FO^+$. Ngược lại $F_mono (.)$ tác động dến sự phức tạp của thuật toán nhiều hơn so với ảnh hưởng của ngôn ngữ  $\mathcal{L}_Q$. Điều này tương tự như các vấn đề $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$ đã nêu ở trên. Các kết quả được xác minh bởi sự giảm bớt.
+	\textit{Định lý 3: Cho vấn đề $RDC(\mathcal{L}_Q,F(.))$, khi hàm mục tiêu là max-		sum hoặc max-min, độ phức tạp hỗn hợp là:
+		\begin{itemize}
+  		\item \#.NP-complete khi $\mathcal{L}_Q$ là  CQ, UCQ, $\exists FO^+$
+  		\item \#.PSPACE-complete khi $\mathcal{L}_Q$ là FO
+  		\end{itemize}
+  	Còn khi hàm mục tiêu là mono-objective độ phức tạp hỗn hợp là:
+  	\begin{itemize}
+  		\item \#.PSPACE-complete khi $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hay FO
+  		\end{itemize}
+	 }
+\subsubsection{Độ phức tạp dữ liệu}
+\textbf{QRD}  (\textit{The query result diversification problem}) 
+Khi F là $F_{MS} (.)$  hoăc  $F_{MM} (.)$, cố định truy vấn Q không làm thay đổi độ phức tạp của vấn đề  $QRD(\mathcal{L}_Q,F(.))$ cho ngôn ngữ CQ, UCQ, $\exists FO^+$, vấn đề vẫn có độ phức tạp là NP-comlete. Ngược lại khi $\mathcal{L}_Q$ là FO và F là $F_{MS} (.)$ hoặc $F_{MM} (.)$ vấn đề đơn giản hơn với độ phức tạp là NP-comlete. Khi F là $F_{mono} (.)$ vấn đề cũng trở nên dễ giải quyết hơn.
+	\textit{Định lý 4: Cho vấn đề $QRD(\mathcal{L}_Q,F(.))$, độ phức tạp dữ liệu là:
+		\begin{itemize}
+  		\item NP-complete khi F là  $F_{MS} (.)$ hoặc $F_{MM} (.)$
+  		\item Trong PTIME khi F là $F_{mono} (.)$
+  		\end{itemize}
+  		với $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hoặc FO\\
+	 }
+	 \\
+\textbf{DRP}  (\textit{The diversity ranking problem})
+Giống như vấn đề $QRD(\mathcal{L}_Q,F(.))$, cố định truy vấn Q làm cho  $DRP(\mathcal{L}_Q,F(.))$ đơn giản hơn khi:
+	\begin{enumerate}
+		\item Hàm mục tiêu F là $F_{mono} (.)$ 
+		\item Khi ngôn ngữ truy vấn $\mathcal{L}_Q$ là FO, và hàm mục tiêu F là $F_{MS} (.)$ hoặc $F_{MM} (.)$
+	\end{enumerate}
+Độ phức tạp dữ liệu vẫn tương tự như độ phức tạp hỗn hợp của khi LQ là CQ, UCQ hoặc $\exists FO^+$, và khi F là $F_MS (.)$ hoặc $F_{MM} (.)$.\\
+	\textit{Định lý 5: Cho vấn đề $DRP(\mathcal{L}_Q,F(.))$, độ phức tạp dữ liệu là:
+		\begin{itemize}
+  		\item coNP-complete khi F là  $F_{MS} (.)$ hoặc $F_{MM} (.)$
+  		\item Trong PTIME khi F là $F_{mono} (.)$
+  		\end{itemize}
+  		với $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hoặc FO
+	 }
+	 \\
+\textbf{RDC}  (\textit{The result diversity counting problem})
+	\textit{Định lý 6: Cho vấn đề $RDC(\mathcal{L}_Q,F(.))$, độ phức tạp dữ liệu là:
+		\begin{itemize}
+  		\item \#P-complete dưới sụ giảm thiểu khi F là  $F_{MS} (.)$ hoặc $F_{MM} (.)$
+  		\item \#P-complete dưới sự tối giản đa thức Turing  khi F là $F_{mono} (.)$
+  		\end{itemize}
+  		với $\mathcal{L}_Q$ là CQ, UCQ, $\exists FO^+$ hoặc FO
+	 }
+	 \\
+\textbf{Tổng kết} Từ những kết quả trên chúng ta thấy;
+	\begin{enumerate}
+		\item Cả ngôn ngữ truy vấn và hàm mục tiêu đều có tác động đến độ phức 			tạp hỗn hợp của những vấn đề trên. Cụ thể hơn: 
+			\begin{itemize}
+  			\item \#P-complete khi F là $F_{MS} (.)$ hoặc $F_{MM} (.)$, những vấn đề này đối với ngôn ngữ truy vấn FO có độ phức tạp phức tạp lớn hơn so với các ngôn ngữ CQ, UCQ và $\exists FO^+$.
+  			\item \#P-complete  Đối với $F_{mono} (.)$ hàm mục tiêu là yếu tố chính chi phối sự phức tạp.
+  			\end{itemize} 
+		\item Độ phức tạp của dữ liệu không liên quan tới ngôn ngữ truy vấn.
+	\end{enumerate}
+\subsection{Một số trường hợp đặc biệt}
+\textbf{Truy vấn nhận dạng}
+
+	\textit{Hệ quả 1: Với truy vấn định danh, khi F là $F_{MS} (.)$ hoặc $F_{MM} (.)$, cả độ phức tạp hỗn hợp và độ phức tạp dữ liệu là:
+		\begin{itemize}
+  		\item NP-complete cho vấn đề $QRD(\mathcal{L}_Q,F(.))$
+  		\item coNP-complete cho vấn đề $DRP(\mathcal{L}_Q,F(.))$ và 
+  		\item \#P-complete cho vấn đề $RDC(\mathcal{L}_Q,F(.))$ dưới sụ giảm thiểu
+  		\end{itemize}
+  	Khi F là $F_mono (.)$ cả độ phức tạp hỗn hợp và độ phức tạp dữ liệu là:
+  		\begin{itemize}
+  		\item trong thời gian PTIME cho vấn đề $QRD(\mathcal{L}_Q,F(.))$
+  		\item trong thời gian PTIME cho vấn đề $DRP(\mathcal{L}_Q,F(.))$
+  		\item \#P-complete cho vấn đề $RDC(\mathcal{L}_Q,F(.))$ dưới sự tối giản đa thức Turing
+  		\end{itemize}
+	 }
+\textbf{Khi $\lambda = 0 $} \\
+Tiếp theo, chúng ta nghiên cứu tác động của hàm liên quan đến tính đa dạng đối với sự phức tạp của thuật toán. Khi $\lambda =0$ chỉ có hàm tính sự đa dạng $\delta _{rel} (.,.)$ được sử dụng trong hàm mục tiêu F(.). 
+	\textit{Hệ quả 2: Với $\lambda = 0 $, khi F là $F_{MS} (.)$ hoặc $F_{MM} (.)$, độ phức tạp hỗn hợp của những vấn đề $QRD(\mathcal{L}_Q,F(.))$, $DRC(\mathcal{L}_Q,F(.))$ và $RDC(\mathcal{L}_Q,F(.))$ giống với độ phức tạp ta đã đề cập đến trong định lý 1,2 và 3 nhưng độ phức tạp dữ liệu là:
+		\begin{itemize}
+  		\item trong thời gian PTIME cho vấn đề $QRD(\mathcal{L}_Q,F(.))$
+  		\item trong thời gian PTIME cho vấn đề $DRP(\mathcal{L}_Q,F(.))$ và 
+  		\item \#P-complete dưới sự tối giản đa thức Turing cho vấn đề $RDC(\mathcal{L}_Q,F(.))$ khi F(.) là $F_{MS} (.)$, trong FP khi  F(.) là $F_{MM} (.)$
+  		\end{itemize}
+  	Khi F là $F_{mono} (.)$ độ phức tạp hỗn hợp là:
+  		\begin{itemize}
+  		\item NP-complete cho vấn đề $QRD(\mathcal{L}_Q,F(.))$ khi $\mathcal{L}_Q$ là  CQ, UCQ hoặc $\exists FO^+$ và PSPACE-complete khi $\mathcal{L}_Q$ là FO.
+  		\item coNP-complete cho vấn đề $DRP(\mathcal{L}_Q,F(.))$ khi $\mathcal{L}_Q$ là  CQ, UCQ hoặc $\exists FO^+$ và PSPACE-complete khi $\mathcal{L}_Q$ là FO.
+  		\item \#.NP-complete cho vấn đề $RDC(\mathcal{L}_Q,F(.))$ khi $\mathcal{L}_Q$ là  CQ, UCQ hoặc $\exists FO^+$ và \#.PSPACE-complete khi $\mathcal{L}_Q$ là FO.
+  		\end{itemize}
+  	Độ phức tạp dữ liệu giống như trong các định lý 4,5,6.
+	 }
+	\\ 
+\textbf{Khi $\lambda = 1 $} \\
+Không giống như kết quả ở hệ quả 2, việc bỏ hàm tính sự liên quan $\delta _{rel} (.,.)$ khỏi F (·) không làm cho thuật toán dễ dàng hơn. Thực tế, cả độ phức tạp kết hợp và độ phức tạp dữ liệu của $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$ và $RDC(\mathcal{L}_Q,F(.))$ vẫn không đổi. Điều này chứng minh hàm tính sự đa dạng $\delta _{rel} (.,.)$ chi phối sự phức tạp của những vấn đề này.\\
+	\textit{Định lý 7: Khi $\lambda = 1 $ độ phức tạp hỗn hợp giống như trong định lý 1,2 và 3 độ phức tạp dữ liệu giống như trong định lý 4,5,6 và không đổi với các vấn đề $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$, $RDC(\mathcal{L}_Q,F(.))$ khi hàm mục tiêu là $F_{MS} (.)$,$F_{MM} (.)$,$F_{mono} (.)$ với các ngôn ngữ CQ, UCQ, $\exists FO^+$ và FO\\
+	 }
+\textbf{Khi k là hằng số} \\
+	\textit{Hệ quả 3: Với k cố định
+		\begin{itemize}
+  		\item Độ phức tạp hỗn hợp như trong định lý 1,2,3 với các vấn đề $QRD(\mathcal{L}_Q,F(.))$,$DRP(\mathcal{L}_Q,F(.))$ và $RDC(\mathcal{L}_Q,F(.))$
+  		\item Độ phức tạp dữ liệu là :\\
+  			{\begin{itemize}
+  			\item PTIME với vấn đề $QRD(\mathcal{L}_Q,F(.))$
+  			\item PTIME với vấn đề $DRP(\mathcal{L}_Q,F(.))$
+  			\item FP với vấn đề $RDC(\mathcal{L}_Q,F(.))$
+  			\end{itemize}}
+  		\end{itemize}
+  		không quan trọng hàm mục tiêu là $F_{MS} (.)$,$F_{MM} (.)$,$F_{mono} (.)$ và ngôn ngữ truy vấn là CQ, UCQ, $\exists FO^+$ và FO.\\
+	 }
+\textbf{Tổng kết} Từ những kết quả trên chúng ta thấy;
+	\begin{itemize}
+  		\item Ảnh hưởng của ngôn ngữ $\mathcal{L}_Q$: Khi F là $F_{MS} (.)$ hoặc $F_{MM} (.)$, các vấn đề $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$ và $RDC(\mathcal{L}_Q,F(.))$ độ phức tạp cho ngôn ngữ FO cao hơn so với các ngôn ngữ CQ, UCQ và $\exists FO^+$.Khi F là  $F_{mono} (.)$ , các giới hạn về độ phức tạp kết hợp của các vấn đề này vẫn không thay đổi khi LQ thay đổi (Theorems 1, 2 và 3). Ngược lại, đối với lớp các truy vấn nhận dạng, tất cả những vấn đề này trở nên đơn giản hơn. Ngôn ngữ truy vấn $\mathcal{L}_Q$ không ảnh hưởng đến độ phức tạp của các vấn đề này.
+  		\item Ảnh hưởng của hàm tính độ đa dạng và hàm tính độ liên quan: Độ phức tạp của bài toán xuất phát từ hàm tính độ đa dạng trong hàm mục tiêu.
+  		\item Ảnh hưởng của k: Khi k là hằng số cố định, độ phức tạp dữ liệu của $QRD(\mathcal{L}_Q,F(.))$, $DRP(\mathcal{L}_Q,F(.))$ và $RDC(\mathcal{L}_Q,F(.))$ trở nên đơn giản hơn, với hàm mục tiêu F là $F_{MS} (.)$ hoặc $F_{MM} (.)$ 
+  	\end{itemize}
+
+\textbf{Bảng 1}  Độ phức tạp hỗn hợp và độ phức tạp sữ liệu	\\
+\begin{tabular}{|m{2cm}|m{2cm}|m{2.5cm}|m{2.5cm}|m{2.8cm}|}
+\hline 
+Hàm mục tiêu & Ngôn ngữ & \multicolumn{3}{|c|}{Vấn đề}\\ 
+\hline
+&&$QRD(\mathcal{L}_Q,F(.))$& $DRP(\mathcal{L}_Q,F(.))$ & $RDC(\mathcal{L}_Q,F(.))$ \\
+\hline
+&& \multicolumn{3}{|c|}{Độ phức tạp hỗn hợp} \\
+\hline 
+\multirow{2}{10em}{$F_{MS} (.)$ và \\$F_{MM} (.)$}& CQ, UCQ và $\exists FO^+$ & NP-complete & coNP-complete &\#.NP-complete \\
+\cline{2-5}
+&FO& PSPACE-complete & PSPACE-complete & \#.PSPACE-complete \\
+\hline
+$F_{mono} (.)$ & CQ, UCQ $\exists FO^+$ , FO & PSPACE-complete & PSPACE-complete & \#.PSPACE-complete \\
+\hline
+
+&& \multicolumn{3}{|c|}{Độ phức tạp dữ liệu} \\
+\hline 
+$F_{MS} (.)$ và $F_{MM} (.)$ & CQ, UCQ và $\exists FO^+$,FO & NP-complete & coNP-complete &\#P-complete \\
+\hline
+$F_{mono} (.)$ & CQ, UCQ $\exists FO^+$ , FO & PTIME & PTIME & \#P-complete \\
+\hline
+
+
+\end{tabular}
+
+
+\textbf{Bảng 2} Các trường hợp đặc biệt 	\\
+\begin{tabular}{|m{2cm}|m{2cm}|m{2.5cm}|m{2.5cm}|m{2.8cm}|}
+\hline 
+Điều kiện & Độ phức tạp & \multicolumn{3}{|c|}{Vấn đề}\\ 
+\hline
+&&$QRD(\mathcal{L}_Q,F(.))$& $DRP(\mathcal{L}_Q,F(.))$ & $RDC(\mathcal{L}_Q,F(.))$ \\
+\hline
+Truy vấn định danh F là $F_{mono} (.)$ &Độ phức tạp hỗn hợp & PTIME & PTIME &\#P-complete(Turing) \\
+\hline
+$\lambda = 0$ F là $F_{MS} (.)$  &Độ phức tạp dữ liệu & PTIME & PTIME &\#P-complete(Turing) \\
+\hline
+$\lambda = 0$ F là $F_{MM} (.)$  &Độ phức tạp dữ liệu &  PTIME & PTIME & FP \\
+\hline
+$\lambda = 0$ F là $F_{mono} (.)$, $\mathcal{L}_Q$ là CQ, UCQ $\exists FO^+$ &Độ phức tạp hỗn hợp &NP-complete & coNP-complete &\#NP-complete  \\
+\hline
+k là hằng số &Độ phức tạp dữ liệu & PTIME & PTIME &FP \\
+\hline
+\end{tabular}
 \bibliography{report}{}
 \bibliographystyle{plain}
 
