@@ -102,7 +102,7 @@ VIỆN CÔNG NGHỆ THÔNG TIN VÀ TRUYỀN THÔNG
 \includegraphics[width=4cm]{hust.jpg}\\[1.3cm]
 \end{center}
 
-\hspace{2.5cm} Mhóm sinh viên thực hiện : \hspace{4pt}
+\hspace{2.5cm} Nhóm sinh viên thực hiện : \hspace{4pt}
 \textbf{\parbox[t]{5cm}{    
     Tạ Quang Tùng \\
     Phạm Minh Tâm
@@ -129,10 +129,15 @@ Nguyễn Kim Anh
 % To show section* in the table of contents
 % Doesn't need with section
 \addcontentsline{toc}{section}{Lời nói đầu}
+
+Nhu cầu tìm kiếm thông tin của người dùng hiện nay ngày càng lớn và phức tạp. Thông thường người dùng thể hiện thông tin mình muốn tìm kiếm thông qua một số từ khóa và các từ khóa này thường không rõ ràng. Công cụ tìm kiếm phải đoán các kết có nhiều khả năng phù hợp nhất để đáp ứng nhu cầu khác nhau của người dùng. Đối với một truy vấn không cụ thể, công cụ tìm kiếm có thể tiếp cận theo nguyên tắc xếp hạng và trả lại các các kết quả có xác suất thỏa mãn nhu cầu người dùng cao nhất. Nhưng có thể người dùng không thỏa mãn bất cứ kết quả trả về nào. Vì thế 	công cụ tìm kiếm cần đa dạng hóa kết quả truy vấn.\\
+Đa dạng hóa bao gồm sự cân bằng giữa độ phù hợp của kết quả đối với câu truy vấn và độ khác nhau giữa các kết quả truy vấn. Do đó vấn đề đa dạng hóa kết quả truy vấn được xem như là vấn đề tối ưu hóa với hai tiêu chí là mức độ phù hợp của kết quả đối với câu truy vấn và độ khác nhau giữa các kết quả truy vấn. Đa dạng hóa được xem như kết hợp cả xếp hạng (đưa ra các kết quả phù hợp hơn ở vị trí cao hơn) và nhóm (nhóm các kết quả tương tự với nhau). Điều này dẫn đến sự phát triển của nhiều hàm mục tiêu và nhiều giải thuật khác nhau.
+Cần tạo ra một tập các tiên đề cho hàm mục tiêu nhằm chọn ra hàm mục tiêu phù hợp nhất. Với mỗi hàm mục tiêu lại làm cho thuật toán có độ phức tạp khác nhau.
+
 \newpage
 
 
-\section{Cách tiếp cận tiên đề trong đa dạng hóa kết quả truy vấn}
+\section{Tiên đề trong đa dạng hóa kết quả truy vấn và một số hàm mục tiêu}
 Trong chương này, chúng ta sẽ đề cập đến cách tiếp cận 
 theo hướng tiên đề trong đa dạng hóa kết quả truy vấn \cite{diversification}. 
 Mục đích để trợ giúp cho việc lựa chọn hàm mục tiêu và đồng thời 
